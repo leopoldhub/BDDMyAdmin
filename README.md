@@ -8,6 +8,7 @@
       3. [pom.xml](#pomxml)
    2. [Embeded](#embeded)
       1. [pom.xml](#pomxml)
+   3. [web.xml](#webxml)
 3. [Deploy and run](#deploy-and-run)
    1. [Deployement](#deployement)
    2. [Run](#run)
@@ -122,6 +123,38 @@ Replace the `port` by your wanted port
    </build>
    ...
 </project>
+```
+
+### web.xml
+
+Change the database settings
+
+```xml
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+  http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    ...
+      <!--Database parameters-->
+      <context-param>
+         <param-name>db.driverClassName</param-name>
+         <param-value>org.postgresql.Driver</param-value>
+      </context-param>
+      <context-param>
+         <param-name>db.url</param-name>
+         <param-value>jdbc:postgresql://psqlserv/da2i</param-value>
+      </context-param>
+      <context-param>
+         <param-name>db.username</param-name>
+         <param-value>databaseusername</param-value>
+      </context-param>
+      <context-param>
+         <param-name>db.password</param-name>
+         <param-value>databasepassword</param-value>
+      </context-param>
+    ...
+</web-app>
 ```
 
 ## Deploy and run
