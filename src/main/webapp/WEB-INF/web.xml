@@ -12,7 +12,7 @@
   </context-param>
   <context-param>
     <param-name>db.url</param-name>
-    <param-value>jdbc:postgresql://psqlserv/da2i</param-value>
+    <param-value>jdbc:postgresql://localhost/da2i</param-value>
   </context-param>
   <context-param>
     <param-name>db.username</param-name>
@@ -29,7 +29,7 @@
 
   <error-page>
     <exception-type>fr.univlille.iutinfo.da2i.hubertleopold.web.autonomie.exceptions.MissingParametersException</exception-type>
-    <location>/missing-parameter-exception</location> <!-- /src/main/webapp/error-404.html-->
+    <location>/missing-parameter-exception</location>
   </error-page>
 
   <filter>
@@ -59,7 +59,7 @@
 
   <servlet>
     <servlet-name>Select</servlet-name>
-    <servlet-class>fr.univlille.iutinfo.da2i.hubertleopold.web.autonomie.servlets.Select</servlet-class>
+    <jsp-file>/Select.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Select</servlet-name>

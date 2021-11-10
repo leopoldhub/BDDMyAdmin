@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 public class ParameterUtils {
 
     public static Set<Map.Entry<String, String[]>> getColumnsEntries(Map<String, String[]> parametersMap){
-        return getPrefixEntries(parametersMap, BDDUtils.COLUMN_PARAMETER_IDENTIFIER);
+        return getPrefixEntries(parametersMap, BDDUtils.COLUMN_PREFIX_IDENTIFIER);
     }
 
-    public static Set<Map.Entry<String, String[]>> getPreviousColumnsEntries(Map<String, String[]> parametersMap){
-        return getPrefixEntries(parametersMap, BDDUtils.PREVIOUS_COLUMN_PARAMETER_IDENTIFIER);
+    public static Set<Map.Entry<String, String[]>> getOldColumnsEntries(Map<String, String[]> parametersMap){
+        return getPrefixEntries(parametersMap, BDDUtils.OLD_COLUMN_PREFIX_IDENTIFIER+BDDUtils.COLUMN_PREFIX_IDENTIFIER);
     }
 
     public static Set<Map.Entry<String, String[]>> getPrefixEntries(Map<String, String[]> parametersMap, String prefix){

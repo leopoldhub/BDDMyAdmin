@@ -25,15 +25,15 @@ public class Update extends HttpServlet {
 
         String tableName = req.getParameterMap().get("table")[0];
         try {
-            Connection connection = DatabaseSingleton.getSingleton().getConnection();
+            Connection connection = DatabaseSingleton.connection;
 
             Set<Map.Entry<String, String[]>> columnsEntries = ParameterUtils.getColumnsEntries(req.getParameterMap());
 
-            Set<Map.Entry<String, String[]>> previousColumnsEntries = ParameterUtils.getPreviousColumnsEntries(req.getParameterMap());
+            Set<Map.Entry<String, String[]>> oldColumnsEntries = ParameterUtils.getOldColumnsEntries(req.getParameterMap());
 
             String set = columnsEntries.stream().map(Map.Entry::getKey).map(parameterKey -> parameterKey + "=?").collect(Collectors.joining(" , "));
 
-            String where = previousColumnsEntries.stream().map(Map.Entry::getKey).map(parameterKey -> parameterKey + "=?").collect(Collectors.joining(" AND "));
+            String where = oldColumnsEntries.stream().map(Map.Entry::getKey).map(parameterKey -> parameterKey + "=?").collect(Collectors.joining(" AND "));
 
             PreparedStatement updateStatement = connection.prepareStatement(
                     String.format("UPDATE %s SET %s WHERE %s;",
@@ -50,11 +50,11 @@ public class Update extends HttpServlet {
                         columnsEntry.getValue().length > 0 ? columnsEntry.getValue()[0] : "",
                         columnTypes.get(columnsEntry.getKey()));
 
-            for (Map.Entry<String, String[]> previousColumnsEntry : previousColumnsEntries)
+            for (Map.Entry<String, String[]> oldColumnsEntry : oldColumnsEntries)
                 updateStatement.setObject(
                         statementIndex++,
-                        previousColumnsEntry.getValue().length > 0 ? previousColumnsEntry.getValue()[0] : "",
-                        columnTypes.get(previousColumnsEntry.getKey()));
+                        oldColumnsEntry.getValue().length > 0 ? oldColumnsEntry.getValue()[0] : "",
+                        columnTypes.get(oldColumnsEntry.getKey()));
 
             stringRequest = updateStatement.toString();
 
@@ -67,7 +67,7 @@ public class Update extends HttpServlet {
         } catch (SQLException e) {
             try {
                 res.sendRedirect(
-                        UriUtils.buildResponseUri(req.getHeader("./select"), "table=" + tableName, "[" + stringRequest + "] " + e.getMessage(), "error")
+                        UriUtils.buildResponseUri("./select", "table=" + tableName, "[" + stringRequest + "] " + e.getMessage(), "error")
                                 .toString());
             } catch (Exception ex) {
                 throw new ServletException(ex);

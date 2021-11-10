@@ -24,9 +24,12 @@ public class Insert extends HttpServlet {
 
         String tableName = req.getParameterMap().get("table")[0];
         try {
-            Connection connection = DatabaseSingleton.getSingleton().getConnection();
+            Connection connection = DatabaseSingleton.connection;
 
             Set<Map.Entry<String, String[]>> columnsEntries = ParameterUtils.getColumnsEntries(req.getParameterMap());
+
+            System.out.println(req.getParameterMap().size());
+            System.out.println(columnsEntries.size());
 
             String columns = columnsEntries.stream().map(Map.Entry::getKey).collect(Collectors.joining(", "));
             String values = columnsEntries.stream().map(parameterEntry -> "?").collect(Collectors.joining(", "));
@@ -39,12 +42,16 @@ public class Insert extends HttpServlet {
 
             Map<String, Integer> columnTypes = BDDUtils.getTableColumnsTypes(connection, tableName);
 
+            System.out.println(columnTypes);
+
             int statementIndex = 1;
-            for (Map.Entry<String, String[]> columnEntry : columnsEntries)
+            for (Map.Entry<String, String[]> columnEntry : columnsEntries) {
+                System.out.println(columnEntry.getKey()+" => "+columnTypes.get(columnEntry.getKey()));
                 selectTableStatement.setObject(
                         statementIndex++,
                         columnEntry.getValue().length > 0 ? columnEntry.getValue()[0] : "",
                         columnTypes.get(columnEntry.getKey()));
+            }
 
             stringRequest = selectTableStatement.toString();
 
@@ -57,7 +64,7 @@ public class Insert extends HttpServlet {
         } catch (SQLException e) {
             try {
                 res.sendRedirect(
-                        UriUtils.buildResponseUri(req.getHeader("./select"), "table=" + tableName, "[" + stringRequest + "] " + e.getMessage(), "error")
+                        UriUtils.buildResponseUri("./select", "table=" + tableName, "[" + stringRequest + "] " + e.getMessage(), "error")
                                 .toString());
             } catch (Exception ex) {
                 throw new ServletException(ex);

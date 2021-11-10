@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class BDDUtils {
 
-    public static final String COLUMN_PARAMETER_IDENTIFIER = "col_";
+    public static final String COLUMN_PREFIX_IDENTIFIER = "col_";
 
-    public static final String PREVIOUS_COLUMN_PARAMETER_IDENTIFIER = "prevcol_";
+    public static final String OLD_COLUMN_PREFIX_IDENTIFIER = "old_";
 
     public static Map<String, Integer> getTableColumnsTypes(Connection connection, String tableName) throws SQLException {
         ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, null);

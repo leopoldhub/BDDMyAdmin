@@ -24,7 +24,7 @@ public class Delete extends HttpServlet {
 
         String tableName = req.getParameterMap().get("table")[0];
         try {
-            Connection connection = DatabaseSingleton.getSingleton().getConnection();
+            Connection connection = DatabaseSingleton.connection;
 
             Set<Map.Entry<String, String[]>> columnsEntries = ParameterUtils.getColumnsEntries(req.getParameterMap());
 
@@ -51,11 +51,10 @@ public class Delete extends HttpServlet {
             res.sendRedirect(
                     UriUtils.buildResponseUri("./select", "table=" + tableName, stringRequest, "success")
                             .toString());
-
         } catch (SQLException e) {
             try {
                 res.sendRedirect(
-                        UriUtils.buildResponseUri(req.getHeader("./select"), "table=" + tableName, "[" + stringRequest + "] " + e.getMessage(), "error")
+                        UriUtils.buildResponseUri("./select", "table=" + tableName,  stringRequest + " " + e.getMessage(), "error")
                                 .toString());
             } catch (Exception ex) {
                 throw new ServletException(ex);
