@@ -11,7 +11,7 @@
     ResultSetMetaData selectResultSetMetadata = selectResultSet.getMetaData();
 
     DatabaseMetaData md = connection.getMetaData();
-    ResultSet tablesResultSet = md.getTables(null, null, "%", new String[]{"TABLE"}); %>
+    ResultSet tablesResultSet = md.getTables(null, getServletContext().getInitParameter("db.username"), "%", new String[]{"TABLE"}); %>
 <!DOCTYPE html>
 <html>
 <head>
