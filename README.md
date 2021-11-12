@@ -6,11 +6,11 @@
       1. [tomcat-users.xml](#tomcat-usersxml)
       2. [settings.xml](#settingsxml)
       3. [pom.xml](#pomxml)
-   2. [Embeded](#embeded)
+   2. [Embedded](#embedded)
       1. [pom.xml](#pomxml)
    3. [web.xml](#webxml)
 3. [Deploy and run](#deploy-and-run)
-   1. [Deployement](#deployement)
+   1. [Deployment](#deployment)
    2. [Run](#run)
 
 ## Included dependencies
@@ -22,7 +22,7 @@
 
 ## Configuration
 
-### Embeded
+### Embedded
 
 #### tomcat-users.xml
 
@@ -159,7 +159,7 @@ Change the database settings
 
 ## Deploy and run
 
-### Deployement
+### Deployment
 
 Run the command `mvn org.apache.tomcat.maven:tomcat7-maven-plugin:2.2:redeploy -f pom.xml` in your project directory.
 Your application context path correspond to your `artifactId` (ex: `http://localhost:8080/myapp`)
